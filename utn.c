@@ -13,13 +13,14 @@
 #include "razas.h"
 #include "utn.h"
 #include "tipos.h"
+#include "pais.h"
 
 #define QTY_MASCOTAS 10
 #define QTY_CARACTERES 20
-#define QTY_HARDCODEO 5
+#define QTY_HARDCODEO 7
 #define QTY_RAZAS 10
 #define QTY_TIPOS 10
-
+#define QTY_PAISES 5
 
 /** \brief Imprime el Menu de Opciones
  *
@@ -33,6 +34,7 @@ int funcionMenu(void)
     struct sRazas aRaza[QTY_RAZAS];
     struct sRazas bRaza;
     struct sTipos aTipo[QTY_TIPOS];
+    struct sPaises aPais[QTY_PAISES];
     int opcion;
 	int retorno;
     int estructuraVacia;
@@ -50,8 +52,9 @@ int funcionMenu(void)
             printf("\n\t 6 - Ordenar Mascotas por Peso");
             printf("\n\t 7 - Alta de Raza");
             printf("\n\t 8 - Pais de Origen con Mayor cantidad de Mascotas");
-            printf("\n\t 9 - Salir");
-        if(getInt(&opcion,"\n\nSeleccione la opcion deseada: ","Ha ingresado una opcion invalida, reintente.",0,9,0)==0)
+            printf("\n\t 9 - Ordenar Mascotas por Cod Telefonico Asc");
+            printf("\n\t 10 - Salir");
+        if(getInt(&opcion,"\n\nSeleccione la opcion deseada: ","Ha ingresado una opcion invalida, reintente.",0,10,0)==0)
         {
 
             switch(opcion)
@@ -63,8 +66,10 @@ int funcionMenu(void)
                             initLugarLibreMascota(aMascota, QTY_MASCOTAS);
                             initLugarLibreRaza(aRaza, QTY_RAZAS);
                             initLugarLibreTipo(aTipo, QTY_TIPOS);
-                            altaForzadaTipos(aTipo, 2);
-                            altaForzadaRaza(aRaza, 4);
+                            initLugarLibrePais(aPais, QTY_PAISES);
+                            altaForzadaTipos(aTipo, 3);
+                            altaForzadaPaises(aPais,QTY_PAISES);
+                            altaForzadaRaza(aRaza, 6);
                             altaForzadaMascotas(aMascota, QTY_HARDCODEO);
                             estructuraVacia = 0;
                     }
@@ -74,7 +79,7 @@ int funcionMenu(void)
                         printf("\nNo se pueden cargar mas Mascotas. La estructura no tiene mas espacios libres.\n\n");
                         break;
                     }
-                    getMascotaStr(aMascota, bMascota,aRaza, QTY_MASCOTAS,3,bLugarLibre);
+                    getMascotaStr(aMascota,bMascota,aRaza,aTipo,aPais,QTY_MASCOTAS,3,bLugarLibre);
                     break;
                 case 2:
                     system("cls");
@@ -92,7 +97,8 @@ int funcionMenu(void)
                         printf("\nNo es posible dar de baja Mascotas ya que la estructura se encuentra vacia. Reintente.\n\n\t");
                         break;
                     }
-                    bajaMascotasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS,aTipo, QTY_TIPOS);
+                    //bajaMascotasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS,aTipo, QTY_TIPOS);
+                    bajaMascotasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS, aTipo, QTY_TIPOS, aPais, QTY_PAISES);
                     break;
                 case 4:
                     system("cls");
@@ -101,7 +107,8 @@ int funcionMenu(void)
                         printf("\nNo es posible listar Mascotas ya que la estructura se encuentra vacia. Reintente.\n\n\t");
                         break;
                     }
-                    imprimirArrayMascotas(aMascota, aTipo, aRaza, QTY_MASCOTAS, QTY_TIPOS, QTY_RAZAS);
+                    //imprimirArrayMascotas(aMascota, aTipo, aRaza, QTY_MASCOTAS, QTY_TIPOS, QTY_RAZAS);
+                    imprimirArrayMascotas(aMascota, aTipo,aRaza,QTY_MASCOTAS,QTY_TIPOS,QTY_RAZAS,aPais,QTY_PAISES);
                     break;
                 case 5:
                     system("cls");
@@ -119,7 +126,7 @@ int funcionMenu(void)
                         printf("\nNo es posible listar datos la estructura se encuentra vacia. Reintente.\n\n\t");
                         break;
                     }
-                    ordenarStructMascotasPorPeso(aMascota, aRaza, aTipo, QTY_MASCOTAS, QTY_RAZAS, QTY_TIPOS);
+                    ordenarStructMascotasPorPeso(aMascota, aRaza, aTipo, QTY_MASCOTAS, QTY_RAZAS, QTY_TIPOS, aPais, QTY_PAISES);
                     break;
                 case 7:
                     system("cls");
@@ -134,14 +141,23 @@ int funcionMenu(void)
                         printf("\nNo se pueden cargar mas Razas. La estructura no tiene mas espacios libres.\n\n");
                         break;
                     }
-                    getRazaStr(aRaza, bRaza, QTY_RAZAS, 3,bLugarLibre);
+                    getRazaStr(aRaza, bRaza, aPais, QTY_RAZAS, 3,bLugarLibre);
                     break;
                 case 8:
                     paisConMayorCantidadMascotas(aMascota,aRaza,QTY_MASCOTAS,QTY_RAZAS);
                     break;
+                case 9:
+                    system("cls");
+                    if(estructuraVacia==1)
+                    {
+                        printf("\nNo es posible listar datos, la estructura se encuentra vacia. Reintente.\n\n\t");
+                        break;
+                    }
+                    ordenarStructMascotasPorCodigoTelefonico(aMascota,aRaza,aTipo,QTY_MASCOTAS, QTY_RAZAS, QTY_TIPOS,aPais, QTY_PAISES);
+                    break;
             }
         }
-    }while(opcion != 9);
+    }while(opcion != 10);
     retorno = 0;
     return retorno;
 }

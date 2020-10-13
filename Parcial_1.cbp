@@ -38,6 +38,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="mascotas.h" />
+		<Unit filename="pais.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="pais.h" />
 		<Unit filename="razas.c">
 			<Option compilerVar="CC" />
 		</Unit>

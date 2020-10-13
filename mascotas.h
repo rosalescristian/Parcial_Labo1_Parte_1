@@ -24,12 +24,14 @@ int buscarLugarLibreMascota(struct sMascotas *aArray, int cantidad);
 int altaMascotasPorId(struct sMascotas *aArray, int cantidad, struct sMascotas mascota);
 int buscarMascotasPorId(struct sMascotas *aArray, int cantidad, int id);
 //int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos);
-int getMascotaStr(	struct sMascotas *aMascota,
+/*int getMascotaStr(	struct sMascotas *aMascota,
                     struct sMascotas bMascota,
                     struct sRazas *aRaza,
+                    struct sTipos *aTipo,
+                    struct sPaises *aPais,
 					int limite,
 					int reintentos,
-					int id);
+					int id);*/
 int getNameMascota(    char *bName,
                         char *pMensaje,
                         char *pMensajeError,
@@ -42,11 +44,11 @@ int getEdad(  int *pResultado,
                 int minimo,
                 int maximo,
                 int reintentos);
-//int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *bArray, struct sRazas *cArray);
-//int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int cantidadMascotas, int cantidadTipos, int cantidadRazas);
+//int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *bArray, struct sRazas *cArray, struct sPaises *dArray);
+//int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int cantidadMascotas, int cantidadTipos, int cantidadRazas, struct sPaises *dArray, int cantidadPaises);
 int getMascotaPorRaza(struct sMascotas *aArray, int idRaza, struct sMascotas aMascota);
-//int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos);
-//int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sMascotas mascota, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos);
+//int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos, struct sPaises *dArray, int cantidadPaises);
+//int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sMascotas mascota, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos, struct sPaises *dArray, int cantidadPaises);
 int contarMascotasPorPais(struct sMascotas *aArray, int cantidadMascotas, int idPais, int *contadorMascotas);
 int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray, int cantidadMascotas, int cantidadRazas);
-
+//int ordenarStructMascotasPorCodigoTelefonico(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos, struct sPaises *dArray, int cantidadPaises);

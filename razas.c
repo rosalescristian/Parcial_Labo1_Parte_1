@@ -12,6 +12,7 @@
 #define QTY_HARDCODEO 5
 #define QTY_RAZAS 10
 #define QTY_TIPOS 10
+#define QTY_PAISES 5
 
 /** \brief Inicializa la estructura, setea todos los elementos como Empty
  *
@@ -48,12 +49,12 @@ int initLugarLibreRaza(struct sRazas *aRaza, int cantidad)
 int altaForzadaRaza(struct sRazas *aArray, int cantidad)
 {
 	int i;
-	int idRaza[] ={0,1,2,3};
-	char nombre[][QTY_CARACTERES] = {"Siames","Doberman","Persa","Pastor Belga"};
-	int idTamanio[] = {0,2,1,2};
-	char tamanio[][QTY_CARACTERES] = {"Chico","Grande","Mediano","Grande"};
-	int idPais[] = {0,1,2,3};
-	char pais[][QTY_CARACTERES] = {"Tailandia","Alemania","Persia","Belgica"};
+	int idRaza[] ={0,1,2,3,4,5};
+	char nombre[][QTY_CARACTERES] = {"Siames","Doberman","Persa","Pastor Belga","Dogo Argentino","Pastor Aleman"};
+	int idTamanio[] = {0,2,1,2,2,2};
+	char tamanio[][QTY_CARACTERES] = {"Chico","Grande","Mediano","Grande","Grande","Grande"};
+	int idPais[] = {0,1,2,3,4,1};
+	char pais[][QTY_CARACTERES] = {"Tailandia","Alemania","Persia","Belgica","Argentina","Alemania"};
 
 	int retorno;
 
@@ -352,6 +353,7 @@ int buscarLugarLibreRaza(struct sRazas *aArray, int cantidad)
 
 int getRazaStr(	struct sRazas *aRaza,
                 struct sRazas bRaza,
+                struct sPaises *aPais,
 					int limite,
 					int reintentos,
 					int id)
@@ -393,30 +395,12 @@ int getRazaStr(	struct sRazas *aRaza,
                     strcpy(bRaza.tamanio,"Grande");
                     break;
             }
-            if(getInt(&bIdPaisOrigen, "\n Ingrese el ID del Pais de origen: \n0-Taliandia\n1-Alemania\n2-Persia\n3-Belgica\n4-Otro\n", "\nHa ingresado un valor invalido, reintente.",0,4,3)==0)
+            imprimirArrayPais(aPais);
+            if(getInt(&bIdPaisOrigen, "\n Ingrese el ID del Pais de origen: ", "\nHa ingresado un valor invalido, reintente.",0,5,3)==0)
             {
                 bRaza.idPaisOrigen = bIdPaisOrigen;
-                switch(bIdPaisOrigen)
-                {
-                     case 0:
-                        strcpy(bRaza.paisOrigen,"Tailandia");
-                        break;
-                    case 1:
-                        strcpy(bRaza.paisOrigen,"Alemania");
-                        break;
-                    case 2:
-                        strcpy(bRaza.paisOrigen,"Persia");
-                        break;
-                    case 3:
-                        strcpy(bRaza.paisOrigen,"Belgica");
-                        break;
-                    case 4:
-                        if(getNameMascota(bPaisOrigen, "\nIngrese el nombre del pais de origen: ", "\nHa ingresado un nombre invalido, reintente.", 2, sizeof(bPaisOrigen),3)==0)
-                        {
-                            strcpy(bRaza.paisOrigen,bPaisOrigen);
-                        }
-                        break;
-                }
+                getDescripcionPais(aPais,bIdPaisOrigen,bPaisOrigen);
+                strcpy(bRaza.paisOrigen,bPaisOrigen);
             }
             bRaza.id=id;
             bRaza.isEmpty=0;

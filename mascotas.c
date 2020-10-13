@@ -12,6 +12,7 @@
 #define QTY_HARDCODEO 5
 #define QTY_RAZAS 10
 #define QTY_TIPOS 10
+#define QTY_PAISES 5
 
 /** \brief Imprimo Mascota
  *
@@ -22,10 +23,11 @@
  * \return Devuelve 0 si pudo mostrar los elementos por pantalla, -1 si hubo algun error
  *
  */
-int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *bArray, struct sRazas *cArray)
+int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *bArray, struct sRazas *cArray, struct sPaises *dArray)
 {
 	int retorno = -1;
 	int lenMascota;
+	int codigoTelefonico;
 	char tipo[QTY_CARACTERES];
 	char raza[QTY_CARACTERES];
 	char pais[QTY_CARACTERES];
@@ -41,7 +43,8 @@ int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *b
                 getDescripcionTipo(bArray,aArray[i].idTipo,tipo);
                 getDescripcionRaza(cArray,aArray[i].idRaza,raza);
                 getPaisRaza(cArray,aArray[i].idPaisOrigen,pais);
-                printf("ID: %02d - Nombre: %-20s - Edad: %02d - Peso: %02d - Sexo: %c - Raza: %-20s - Tipo: %-10s - Pais Origen: %-20s\n",aArray[i].id, aArray[i].nombre,aArray[i].edad,aArray[i].peso,aArray[i].sexo,raza,tipo,pais);
+                getCodigoTelefonico(dArray,aArray[i].idPaisOrigen,&codigoTelefonico);
+                printf("ID: %02d - Nombre: %-20s - Edad: %02d - Peso: %02d - Sexo: %c - Raza: %-20s - Tipo: %-10s - Pais Origen: %-20s - Cod. Telefonico: %d\n",aArray[i].id, aArray[i].nombre,aArray[i].edad,aArray[i].peso,aArray[i].sexo,raza,tipo,pais,codigoTelefonico);
             }
         }
 	}
@@ -54,7 +57,7 @@ int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *b
   * \return Devuelve 0 si pudo mostrar los elementos por pantalla, -1 si hubo algun error
  *
  */
-int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int cantidadMascotas, int cantidadTipos, int cantidadRazas)
+int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int cantidadMascotas, int cantidadTipos, int cantidadRazas, struct sPaises *dArray, int cantidadPaises)
 {
 	int i;
 	int retorno = -1;
@@ -68,7 +71,7 @@ int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struc
 		{
             if(aArray[i].isEmpty == 0)
             {
-                imprimirMascota(aArray,aArray[i].id,bArray,cArray);
+                imprimirMascota(aArray,aArray[i].id,bArray,cArray, dArray);
             }
 
         }
@@ -110,14 +113,14 @@ int initLugarLibreMascota(struct sMascotas *aMascota, int cantidad)
  int altaForzadaMascotas(struct sMascotas *aArray, int cantidad)
 {
 	int i;
-	int idMascota[] ={0,1,2,3,4};
-	char nombre[][QTY_CARACTERES] = {"Bobby","Firulais","Negra","Nieve","Otto"};
-	int edad[] = {1,2,5,7,3};
-	int peso[] = {5,40,10,7,25};
-	char sexo[] = {'M','M','F','F','M'};
-	int idTipo[] = {0,1,0,0,1};
-    int idPaisOrigen[] = {0,1,2,0,3};
-    int idRaza[] = {0,1,2,0,3};
+	int idMascota[] ={0,1,2,3,4,5,6};
+	char nombre[][QTY_CARACTERES] = {"Bobby","Firulais","Negra","Nieve","Otto","Harry","Lonzo"};
+	int edad[] = {1,2,5,7,3,4,2};
+	int peso[] = {5,40,10,7,25,15,25};
+	char sexo[] = {'M','M','F','F','M','M','F'};
+	int idTipo[] = {0,1,0,0,1,1,1};
+    int idPaisOrigen[] = {0,1,2,0,3,4,1};
+    int idRaza[] = {0,1,2,0,3,4,5};
 
 	int retorno;
 
@@ -229,7 +232,7 @@ int buscarMascotasPorId(struct sMascotas *aArray, int cantidad, int id)
  * \return Devuelve 0 si se pudo procesar la baja o -1 si hubo algun error.
  *
  */
-int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos)
+int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos,struct sPaises *dArray, int cantidadPaises)
 {
 	int retorno;
 	int idEditable;
@@ -238,14 +241,16 @@ int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRa
 	if(aArray != NULL && cantidadMascotas>0 && bArray != NULL && cantidadRazas > 0 && cArray != NULL)
 	{
 	    system("cls");
-        imprimirArrayMascotas(aArray,cArray,bArray, cantidadMascotas, cantidadTipos, cantidadRazas);
+        //imprimirArrayMascotas(aArray,cArray,bArray, cantidadMascotas, cantidadTipos, cantidadRazas);
+        imprimirArrayMascotas(aArray, cArray,bArray,cantidadMascotas,cantidadTipos,cantidadRazas,dArray,cantidadPaises);
         retorno = -1;
         seguir = 'N';
 		if(getInt(&idEditable,"\nSeleccione el id a dar de baja: \n","Ha seleccionado un id no valido. Reintente\n",0,cantidadMascotas-1,3)==0)
         {
             system("cls");
             printf("Va a eliminar la siguiente mascota: \n\n");
-            imprimirMascota(aArray, idEditable,cArray, bArray);
+            //imprimirMascota(aArray, idEditable,cArray, bArray);
+            imprimirMascota(aArray, idEditable, cArray, bArray, dArray);
             getCharBinario(&seguir, "Desea proceder(S/N): \n", "La respuesta es invalida, reintente.\n",'N','S',3);
             if(seguir == 'S')
             {
@@ -270,6 +275,8 @@ int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRa
 int getMascotaStr(	struct sMascotas *aMascota,
                     struct sMascotas bMascota,
                     struct sRazas *aRaza,
+                    struct sTipos *aTipo,
+                    struct sPaises *aPais,
 					int limite,
 					int reintentos,
 					int id)
@@ -281,6 +288,8 @@ int getMascotaStr(	struct sMascotas *aMascota,
 	int bPeso;
 	int cMascota;
 	int bIdRaza;
+	int bTipo;
+	int bIdPais;
 
 	if(		aMascota != NULL &&
             limite > 0 &&
@@ -308,29 +317,20 @@ int getMascotaStr(	struct sMascotas *aMascota,
             {
                 bMascota.sexo=bSexo;
             }
+            imprimirArrayTipo(aTipo);
+            if(getInt(&bTipo, "\nSeleccione el ID del Tipo de Mascota: ", "Ha ingresado un tipo invalido\n",0,2,3)==0)
+            {
+                bMascota.idTipo=bTipo;
+            }
             imprimirArrayRaza(aRaza);
             if(getInt(&bIdRaza, "\nSelecccione el Id de la raza para la Mascota: ", "\nHa ingresado un id invalido, reintente.",0,QTY_RAZAS,3)==0)
             {
                 bMascota.idRaza=bIdRaza;
-                switch(bIdRaza)
-                {
-                    case 0:
-                            bMascota.idTipo=0;
-                            bMascota.idPaisOrigen=0;
-                            break;
-                    case 1:
-                            bMascota.idTipo=1;
-                            bMascota.idPaisOrigen=1;
-                            break;
-                    case 2:
-                            bMascota.idTipo=0;
-                            bMascota.idPaisOrigen=2;
-                            break;
-                    case 3:
-                            bMascota.idTipo=1;
-                            bMascota.idPaisOrigen=3;
-                            break;
-                }
+            }
+            imprimirArrayPais(aPais);
+            if(getInt(&bIdPais,"\nSeleccione el Id del pais de Origen: ","\nHa ingresado una opcion invalida, reintente",0,QTY_PAISES,3)==0)
+            {
+                bMascota.idPaisOrigen=bIdPais;
             }
             bMascota.id=id;
             bMascota.isEmpty=0;
@@ -489,7 +489,7 @@ int getMascotaPorRaza(struct sMascotas *aArray, int idRaza, struct sMascotas aMa
  * \return Devuelve 0 si pudo ordenar la estructura o -1 si hubo algun error
  *
  */
-int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos)
+int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos, struct sPaises *dArray, int cantidadPaises)
 {
 	int i;
 	int j;
@@ -514,7 +514,7 @@ int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray
 			}
 			retorno = 0;
 		}while(fSwap==1);
-		imprimirArrayMascotas(aArray,cArray, bArray,cantidadMascotas,cantidadTipos,cantidadRazas);
+		imprimirArrayMascotas(aArray,cArray, bArray,cantidadMascotas,cantidadTipos,cantidadRazas, dArray, cantidadPaises);
 	}
 	return retorno;
 }
@@ -531,7 +531,7 @@ int ordenarStructMascotasPorPeso(struct sMascotas *aArray, struct sRazas *bArray
  * \return Devuelve 0 si pudo hacer la modificacion o -1 si hubo algun error
  *
  */
-int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sMascotas mascota, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos)
+int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sMascotas mascota, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos, struct sPaises *dArray, int cantidadPaises)
 {
     int retorno;
 	char bNombre[QTY_CARACTERES];
@@ -546,7 +546,7 @@ int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struc
     char seguir;
 do{
     system("cls");
-    imprimirArrayMascotas(aArray,cArray,bArray,cantidadMascotas,cantidadTipos,cantidadRazas);
+    imprimirArrayMascotas(aArray,cArray,bArray,cantidadMascotas,cantidadTipos,cantidadRazas,dArray, cantidadPaises);
 //    imprimirArrayEmpleados(aEmpleado, QTY_EMPLEADOS);
     retorno = -1;
     seguir = 'N';
@@ -561,7 +561,7 @@ do{
                 mascota=aArray[i];
             }
         }
-        imprimirMascota(aArray, mascota.id, cArray, bArray);
+        imprimirMascota(aArray, mascota.id, cArray, bArray,dArray);
         if(getInt(&campoEditable,"Ingrese el campo a editar (1/7)\n\n","Ha elegido un campo invalido, reintente.\n",1,7,3)==0)
         {
             switch(campoEditable)
@@ -727,7 +727,50 @@ int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray
     return retorno;
 }
 
+/** \brief Ordena los elementos de la estructura por Codigo Telefonico
+ *
+ * \param aEmpleado recibe la estructura a ordenar
+ * \param cantidad recibe la cantidad de elementos en la estructura
+ * \return Devuelve 0 si pudo ordenar la estructura o -1 si hubo algun error
+ *
+ */
+int ordenarStructMascotasPorCodigoTelefonico(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos, struct sPaises *dArray, int cantidadPaises)
+{
+	int i;
+	int j;
+	int retorno = -1;
+	int codigoTelefonicoI;
+	int codigoTelefonicoJ;
+	struct sMascotas bMascota;
+	int fSwap;
+	if(aArray != NULL && cantidadMascotas>0 && bArray != NULL && cantidadRazas >0 && cArray != NULL && cantidadTipos > 0 && dArray != NULL && cantidadPaises > 0)
+	{
+		do
+		{
+			fSwap = 0;
+			for(i=0;i<cantidadMascotas-1;i++)
+			{
+				j = i+1;
+				if(aArray[i].isEmpty == 0 && aArray[j].isEmpty == 0)
+                {
+                    getCodigoTelefonico(dArray,aArray[i].idPaisOrigen,&codigoTelefonicoI);
+                    getCodigoTelefonico(dArray,aArray[j].idPaisOrigen,&codigoTelefonicoJ);
+                    if(codigoTelefonicoI<codigoTelefonicoJ)
+                    {
+                        fSwap = 1;
+                        bMascota = aArray[i];
+                        aArray[i]=aArray[j];
+                        aArray[j]=bMascota;
+                    }
 
+                }
+			}
+			retorno = 0;
+		}while(fSwap==1);
+		imprimirArrayMascotas(aArray,cArray, bArray,cantidadMascotas,cantidadTipos,cantidadRazas, dArray, cantidadPaises);
+	}
+	return retorno;
+}
 
 
 

@@ -24,8 +24,9 @@ int getTamanioRaza(struct sRazas *aArray, int indexRaza, char tamanioRaza[]);
 int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[]);
 //int imprimirArrayMascotasPorRaza(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int idRaza);
 //int imprimirArrayMascotasPorRaza(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray);
-int getRazaStr(	struct sRazas *aRaza,
+/*int getRazaStr(	struct sRazas *aRaza,
                 struct sRazas bRaza,
+                struct sPaises *aPais,
 					int limite,
 					int reintentos,
-					int id);
+					int id);*/

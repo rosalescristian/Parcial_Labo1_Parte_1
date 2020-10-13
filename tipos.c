@@ -12,6 +12,7 @@
 #define QTY_HARDCODEO 5
 #define QTY_RAZAS 10
 #define QTY_TIPOS 10
+#define QTY_PAISES 5
 
 /** \brief Inicializa la estructura, setea todos los elementos como Empty
  *
@@ -48,8 +49,8 @@ int initLugarLibreTipo(struct sTipos *aTipo, int cantidad)
 int altaForzadaTipos(struct sTipos *aArray, int cantidad)
 {
 	int i;
-	int idTipo[] = {0,1};
-	char tipo[][QTY_CARACTERES] = {"Gato","Perro"};
+	int idTipo[] = {0,1,2};
+	char tipo[][QTY_CARACTERES] = {"Gato","Perro","Raro"};
 
 	int retorno;
 
