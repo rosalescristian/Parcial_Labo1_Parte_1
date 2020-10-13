@@ -42,7 +42,7 @@ int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *b
             {
                 getDescripcionTipo(bArray,aArray[i].idTipo,tipo);
                 getDescripcionRaza(cArray,aArray[i].idRaza,raza);
-                getPaisRaza(cArray,aArray[i].idPaisOrigen,pais);
+                getPaisRaza(cArray,aArray[i].idPaisOrigen,pais,dArray);
                 getCodigoTelefonico(dArray,aArray[i].idPaisOrigen,&codigoTelefonico);
                 printf("ID: %02d - Nombre: %-20s - Edad: %02d - Peso: %02d - Sexo: %c - Raza: %-20s - Tipo: %-10s - Pais Origen: %-20s - Cod. Telefonico: %d\n",aArray[i].id, aArray[i].nombre,aArray[i].edad,aArray[i].peso,aArray[i].sexo,raza,tipo,pais,codigoTelefonico);
             }
@@ -322,7 +322,7 @@ int getMascotaStr(	struct sMascotas *aMascota,
             {
                 bMascota.idTipo=bTipo;
             }
-            imprimirArrayRaza(aRaza);
+            imprimirArrayRaza(aRaza, aPais);
             if(getInt(&bIdRaza, "\nSelecccione el Id de la raza para la Mascota: ", "\nHa ingresado un id invalido, reintente.",0,QTY_RAZAS,3)==0)
             {
                 bMascota.idRaza=bIdRaza;
@@ -619,7 +619,7 @@ do{
                 case 6:
                     system("cls");
                     printf("Va a editar el ID Pais Origen: ID %d  Recuerde actualizar el ID de raza\n", mascota.idPaisOrigen);
-                    imprimirArrayRaza(bArray);
+                    imprimirArrayRaza(bArray, dArray);
                     if(getInt(&bIdPaisOrigen, "Seleccione el nuevo ID de Pais Origen: ", "Ha seleccionado un valor invalido, reintente",0,3,3)==0)
                     {
                         mascota.idPaisOrigen=bIdPaisOrigen;
@@ -630,7 +630,7 @@ do{
                 case 7:
                     system("cls");
                     printf("Va a editar el ID de Raza: ID %d", mascota.idRaza);
-                    imprimirArrayRaza(bArray);
+                    imprimirArrayRaza(bArray, dArray);
                     if(getInt(&bIdRaza, "Seleccione el nuevo ID de Raza: ", "Ha seleccionado un valor invalido, reintente",0,QTY_RAZAS,3)==0)
                     {
                         mascota.idRaza=bIdRaza;
@@ -689,7 +689,7 @@ int contarMascotasPorPais(struct sMascotas *aArray, int cantidadMascotas, int id
 }
 
 
-int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray, int cantidadMascotas, int cantidadRazas)
+int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray, int cantidadMascotas, int cantidadRazas, struct sPaises *dArray, int cantidadPaises)
 {
     int retorno;
     int contadorMascotas;
@@ -716,7 +716,7 @@ int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray
                 {
                     maxContador = contadorMascotas;
                     idPais = idPais;
-                    strcpy(nombrePais,bArray[i].paisOrigen);
+                    strcpy(nombrePais,getDescripcionPais(dArray, idPais,nombrePais));
                 }
             }
         }

@@ -144,7 +144,7 @@ int funcionMenu(void)
                     getRazaStr(aRaza, bRaza, aPais, QTY_RAZAS, 3,bLugarLibre);
                     break;
                 case 8:
-                    paisConMayorCantidadMascotas(aMascota,aRaza,QTY_MASCOTAS,QTY_RAZAS);
+                    paisConMayorCantidadMascotas(aMascota,aRaza,QTY_MASCOTAS,QTY_RAZAS,aPais,QTY_PAISES);
                     break;
                 case 9:
                     system("cls");

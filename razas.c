@@ -54,7 +54,7 @@ int altaForzadaRaza(struct sRazas *aArray, int cantidad)
 	int idTamanio[] = {0,2,1,2,2,2};
 	char tamanio[][QTY_CARACTERES] = {"Chico","Grande","Mediano","Grande","Grande","Grande"};
 	int idPais[] = {0,1,2,3,4,1};
-	char pais[][QTY_CARACTERES] = {"Tailandia","Alemania","Persia","Belgica","Argentina","Alemania"};
+	//char pais[][QTY_CARACTERES] = {"Tailandia","Alemania","Persia","Belgica","Argentina","Alemania"};
 
 	int retorno;
 
@@ -66,7 +66,7 @@ int altaForzadaRaza(struct sRazas *aArray, int cantidad)
 		aArray[i].idTamanio= idTamanio[i];
 		strncpy(aArray[i].tamanio,tamanio[i],QTY_CARACTERES);
 		aArray[i].idPaisOrigen = idPais[i];
-		strncpy(aArray[i].paisOrigen,pais[i],QTY_CARACTERES);
+//		strncpy(aArray[i].paisOrigen,pais[i],QTY_CARACTERES);
 		aArray[i].isEmpty = 0;
 	}
 	retorno = 0;
@@ -80,12 +80,12 @@ int altaForzadaRaza(struct sRazas *aArray, int cantidad)
  * \return Devuelve 0 si pudo mostrar los elementos por pantalla, -1 si hubo algun error
  *
  */
-int imprimirRaza(struct sRazas *aArray, int indexTipo)
+int imprimirRaza(struct sRazas *aArray, int indexTipo, struct sPaises *bArray)
 {
 	int i;
 	int retorno = -1;
 	int lenRaza;
-
+    char paisOrigen[QTY_CARACTERES];
 	if(aArray != NULL && indexTipo >=0)
 	{
 		retorno = 0;
@@ -94,7 +94,8 @@ int imprimirRaza(struct sRazas *aArray, int indexTipo)
 		{
             if(aArray[i].isEmpty == 0 && aArray[i].id == indexTipo)
             {
-                printf("\nID: %02d - Raza: %-20s - ID Tamanio: %02d - Tamanio: %-20s - Pais Origen: %-20s\n",aArray[i].id, aArray[i].descripcion,aArray[i].idTamanio,aArray[i].tamanio,aArray[i].paisOrigen);
+                getDescripcionPais(bArray,aArray[i].idPaisOrigen,paisOrigen);
+                printf("\nID: %02d - Raza: %-20s - ID Tamanio: %02d - Tamanio: %-20s - Pais Origen: %-20s\n",aArray[i].id, aArray[i].descripcion,aArray[i].idTamanio,aArray[i].tamanio,paisOrigen);
             }
         }
 	}
@@ -138,12 +139,12 @@ int imprimirRaza(struct sRazas *aArray, int indexTipo)
   * \return Devuelve 0 si pudo mostrar los elementos por pantalla, -1 si hubo algun error
  *
  */
-int imprimirArrayRaza(struct sRazas *aArray)
+int imprimirArrayRaza(struct sRazas *aArray, struct sPaises *bArray)
 {
 	int i;
 	int retorno = -1;
 	int lenRaza;
-	if(aArray != NULL)
+	if(aArray != NULL && bArray != NULL)
 	{
 		retorno = 0;
 		lenRaza = QTY_RAZAS;
@@ -151,7 +152,7 @@ int imprimirArrayRaza(struct sRazas *aArray)
 		{
             if(aArray[i].isEmpty == 0)
             {
-                imprimirRaza(aArray,aArray[i].id);
+                imprimirRaza(aArray,aArray[i].id, bArray);
             }
         }
 	}
@@ -226,10 +227,11 @@ int getTamanioRaza(struct sRazas *aArray, int indexRaza, char tamanioRaza[])
 * \return Devuelve 0 si pudo mostrar los elementos por pantalla, -1 si hubo algun error
  *
  */
-int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[])
+int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[], struct sPaises *bArray)
 {
     int retorno;
     int lenRaza;
+    char nombrePais[QTY_CARACTERES];
     retorno = -1;
 
     if(aArray != NULL && indexRaza >=0)
@@ -239,7 +241,8 @@ int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[])
         {
             if(aArray[i].isEmpty == 0 && aArray[i].id == indexRaza)
             {
-                strcpy(paisRaza,aArray[i].paisOrigen);
+                getDescripcionPais(bArray, aArray[i].idPaisOrigen,nombrePais);
+                strcpy(paisRaza,nombrePais);
                 retorno = 0;
                 break;
             }
@@ -399,8 +402,6 @@ int getRazaStr(	struct sRazas *aRaza,
             if(getInt(&bIdPaisOrigen, "\n Ingrese el ID del Pais de origen: ", "\nHa ingresado un valor invalido, reintente.",0,5,3)==0)
             {
                 bRaza.idPaisOrigen = bIdPaisOrigen;
-                getDescripcionPais(aPais,bIdPaisOrigen,bPaisOrigen);
-                strcpy(bRaza.paisOrigen,bPaisOrigen);
             }
             bRaza.id=id;
             bRaza.isEmpty=0;

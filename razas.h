@@ -8,7 +8,7 @@ struct sRazas
     int idTamanio;
     char  tamanio[20];
     int idPaisOrigen;
-    char paisOrigen[20];
+    //char paisOrigen[20];
     int isEmpty;
 };
 
@@ -16,12 +16,12 @@ struct sRazas
 
 int initLugarLibreRaza(struct sRazas *aRaza, int cantidad);
 int altaForzadaRaza(struct sRazas *aArray, int cantidad);
-int imprimirRaza(struct sRazas *aArray, int indexTipo);
+//int imprimirRaza(struct sRazas *aArray, int indexTipo, struct sPaises *bArray);
 int calculaLenRaza(struct sRazas *aArray, int *lenRaza);
-int imprimirArrayRaza(struct sRazas *aArray);
+//int imprimirArrayRaza(struct sRazas *aArray, struct sPaises *bArray);
 int getDescripcionRaza(struct sRazas *aArray, int indexRaza, char nombreRaza[]);
 int getTamanioRaza(struct sRazas *aArray, int indexRaza, char tamanioRaza[]);
-int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[]);
+//int getPaisRaza(struct sRazas *aArray, int indexRaza, char paisRaza[], struct sPaises *bArray);
 //int imprimirArrayMascotasPorRaza(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int idRaza);
 //int imprimirArrayMascotasPorRaza(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray);
 /*int getRazaStr(	struct sRazas *aRaza,
