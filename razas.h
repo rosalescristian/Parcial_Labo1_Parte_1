@@ -8,7 +8,6 @@ struct sRazas
     int idTamanio;
     char  tamanio[20];
     int idPaisOrigen;
-    //char paisOrigen[20];
     int isEmpty;
 };
 
@@ -30,3 +29,4 @@ int getTamanioRaza(struct sRazas *aArray, int indexRaza, char tamanioRaza[]);
 					int limite,
 					int reintentos,
 					int id);*/
+//int bajaRazasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos,struct sPaises *dArray, int cantidadPaises);

@@ -52,3 +52,7 @@ int getMascotaPorRaza(struct sMascotas *aArray, int idRaza, struct sMascotas aMa
 int contarMascotasPorPais(struct sMascotas *aArray, int cantidadMascotas, int idPais, int *contadorMascotas);
 //int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray, int cantidadMascotas, int cantidadRazas, struct sPaises *dArray, int cantidadPaises);
 //int ordenarStructMascotasPorCodigoTelefonico(struct sMascotas *aArray, struct sRazas *bArray, struct sTipos *cArray, int cantidadMascotas, int cantidadRazas, int cantidadTipos, struct sPaises *dArray, int cantidadPaises);
+//int bajaMascotasPorIdAutomatica(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos,struct sPaises *dArray, int cantidadPaises, int idRaza);
+//int listarPorPesoTipo(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos, struct sPaises *dArray, int cantidadPaises);
+int sumarPesosMascotas(struct sMascotas *aArray, int cantidadMascotas, int idTipo, float *sumaPesoMascotas);
+int contadorMascotasPorTipo(struct sMascotas *aArray, int cantidadMascotas, int idTipo, float *sumaPesoMascotas);

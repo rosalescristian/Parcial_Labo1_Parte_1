@@ -52,9 +52,11 @@ int funcionMenu(void)
             printf("\n\t 6 - Ordenar Mascotas por Peso");
             printf("\n\t 7 - Alta de Raza");
             printf("\n\t 8 - Pais de Origen con Mayor cantidad de Mascotas");
-            printf("\n\t 9 - Ordenar Mascotas por Cod Telefonico Asc");
-            printf("\n\t 10 - Salir");
-        if(getInt(&opcion,"\n\nSeleccione la opcion deseada: ","Ha ingresado una opcion invalida, reintente.",0,10,0)==0)
+            printf("\n\t 9 - Ordenar Mascotas por Cod Telefonico Desc");
+            printf("\n\t 10 - Baja de Raza");
+            printf("\n\t 11 - Listar por Peso y Tipo");
+            printf("\n\t 12 - Salir");
+        if(getInt(&opcion,"\n\nSeleccione la opcion deseada: ","Ha ingresado una opcion invalida, reintente.",0,12,0)==0)
         {
 
             switch(opcion)
@@ -97,7 +99,6 @@ int funcionMenu(void)
                         printf("\nNo es posible dar de baja Mascotas ya que la estructura se encuentra vacia. Reintente.\n\n\t");
                         break;
                     }
-                    //bajaMascotasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS,aTipo, QTY_TIPOS);
                     bajaMascotasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS, aTipo, QTY_TIPOS, aPais, QTY_PAISES);
                     break;
                 case 4:
@@ -107,7 +108,6 @@ int funcionMenu(void)
                         printf("\nNo es posible listar Mascotas ya que la estructura se encuentra vacia. Reintente.\n\n\t");
                         break;
                     }
-                    //imprimirArrayMascotas(aMascota, aTipo, aRaza, QTY_MASCOTAS, QTY_TIPOS, QTY_RAZAS);
                     imprimirArrayMascotas(aMascota, aTipo,aRaza,QTY_MASCOTAS,QTY_TIPOS,QTY_RAZAS,aPais,QTY_PAISES);
                     break;
                 case 5:
@@ -155,9 +155,27 @@ int funcionMenu(void)
                     }
                     ordenarStructMascotasPorCodigoTelefonico(aMascota,aRaza,aTipo,QTY_MASCOTAS, QTY_RAZAS, QTY_TIPOS,aPais, QTY_PAISES);
                     break;
+                case 10:
+                    system("cls");
+                    if(estructuraVacia==1)
+                    {
+                        printf("\nNo es posible dar de baja Mascotas ya que la estructura se encuentra vacia. Reintente.\n\n\t");
+                        break;
+                    }
+                    bajaRazasPorId(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS, aTipo, QTY_TIPOS, aPais, QTY_PAISES);
+                    break;
+                case 11:
+                    system("cls");
+                    if(estructuraVacia==1)
+                    {
+                        printf("\nNo es posible listar informacion ya que la estructura se encuentra vacia. Reintente.\n\n\t");
+                        break;
+                    }
+                    listarPorPesoTipo(aMascota, QTY_MASCOTAS, aRaza, QTY_RAZAS, aTipo, QTY_TIPOS, aPais, QTY_PAISES);
+                    break;
             }
         }
-    }while(opcion != 10);
+    }while(opcion != 12);
     retorno = 0;
     return retorno;
 }

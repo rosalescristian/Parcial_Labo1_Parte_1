@@ -59,15 +59,14 @@ int imprimirMascota(struct sMascotas *aArray, int indexMascota, struct sTipos *b
  */
 int imprimirArrayMascotas(struct sMascotas *aArray, struct sTipos *bArray, struct sRazas *cArray, int cantidadMascotas, int cantidadTipos, int cantidadRazas, struct sPaises *dArray, int cantidadPaises)
 {
-	int i;
 	int retorno = -1;
 	int lenMascota;
 	if(aArray != NULL && bArray != NULL && cArray != NULL)
 	{
 		retorno = 0;
-		lenMascota = QTY_MASCOTAS;
+		lenMascota = cantidadMascotas;
 		printf("\t***** LISTADO DE MASCOTAS *****\n\n");
-		for(i=0;i<lenMascota;i++)
+		for(int i=0;i<lenMascota;i++)
 		{
             if(aArray[i].isEmpty == 0)
             {
@@ -241,7 +240,6 @@ int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRa
 	if(aArray != NULL && cantidadMascotas>0 && bArray != NULL && cantidadRazas > 0 && cArray != NULL)
 	{
 	    system("cls");
-        //imprimirArrayMascotas(aArray,cArray,bArray, cantidadMascotas, cantidadTipos, cantidadRazas);
         imprimirArrayMascotas(aArray, cArray,bArray,cantidadMascotas,cantidadTipos,cantidadRazas,dArray,cantidadPaises);
         retorno = -1;
         seguir = 'N';
@@ -249,7 +247,6 @@ int bajaMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRa
         {
             system("cls");
             printf("Va a eliminar la siguiente mascota: \n\n");
-            //imprimirMascota(aArray, idEditable,cArray, bArray);
             imprimirMascota(aArray, idEditable, cArray, bArray, dArray);
             getCharBinario(&seguir, "Desea proceder(S/N): \n", "La respuesta es invalida, reintente.\n",'N','S',3);
             if(seguir == 'S')
@@ -546,11 +543,10 @@ int modificarMascotasPorId(struct sMascotas *aArray, int cantidadMascotas, struc
     char seguir;
 do{
     system("cls");
-    imprimirArrayMascotas(aArray,cArray,bArray,cantidadMascotas,cantidadTipos,cantidadRazas,dArray, cantidadPaises);
-//    imprimirArrayEmpleados(aEmpleado, QTY_EMPLEADOS);
+    imprimirArrayMascotas(aArray,cArray, bArray,cantidadMascotas,cantidadTipos,cantidadRazas, dArray,cantidadPaises);
     retorno = -1;
     seguir = 'N';
-
+    printf("1");
     if(getInt(&idEditable,"\nIngrese el id a editar: \n\n","Ha seleccionado una opcion no valida. Reintente\n\n",0,cantidadMascotas-1,3)==0)
 
     {
@@ -688,7 +684,17 @@ int contarMascotasPorPais(struct sMascotas *aArray, int cantidadMascotas, int id
     return retorno;
 }
 
-
+/** \brief Imprime por pantalla el pais que tiene mayor cantidad de mascotas y de cuantos animales se trata
+ *
+ * \param aArray recibe la direccion de memoria de la estructura Mascotas
+ * \param cantidadMascotas
+ * \param bArray recibe la direccion de memoria de la estructura Razas
+ * \param cantidadRazas
+ * \param dArray recibe la direccion de memoria de la estructura Paies
+ * \param cantidadPases
+ * \return 0 si fue exitoso, -1 si hubo algun error
+ *
+ */
 int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray, int cantidadMascotas, int cantidadRazas, struct sPaises *dArray, int cantidadPaises)
 {
     int retorno;
@@ -698,7 +704,6 @@ int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray
     char nombrePais[QTY_CARACTERES];
 
     retorno = -1;
-
     if(aArray != NULL && bArray != NULL && cantidadMascotas > 0 && cantidadRazas > 0)
     {
         contadorMascotas = 0;
@@ -716,7 +721,7 @@ int paisConMayorCantidadMascotas(struct sMascotas *aArray, struct sRazas *bArray
                 {
                     maxContador = contadorMascotas;
                     idPais = idPais;
-                    strcpy(nombrePais,getDescripcionPais(dArray, idPais,nombrePais));
+                    getDescripcionPais(dArray, idPais,nombrePais);
                 }
             }
         }
@@ -773,4 +778,142 @@ int ordenarStructMascotasPorCodigoTelefonico(struct sMascotas *aArray, struct sR
 }
 
 
+
+/** \brief Da de beja un elemento en el array de estructura
+ *
+ * \param aArray recibe la direccion de memoria donde se encuentra el array de estructura
+ * \param cantidad recibe el tamaño del array a recorrer
+ * \return Devuelve 0 si se pudo procesar la baja o -1 si hubo algun error.
+ *
+ */
+int bajaMascotasPorIdAutomatica(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos,struct sPaises *dArray, int cantidadPaises, int idRaza)
+{
+	int retorno;
+	int idEditable;
+	char seguir;
+
+	if(aArray != NULL && cantidadMascotas>0 && bArray != NULL && cantidadRazas > 0 && cArray != NULL)
+	{
+        for(int i=0; i<cantidadMascotas;i++)
+        {
+            if(aArray[i].idRaza==idRaza)
+            {
+                aArray[i].isEmpty = 1;
+            }
+        }
+        retorno = 0;
+    }
+	return retorno;
+}
+
+/** \brief Imprime por pantalla el cantidad de mascotas por pais, total de pesa de todas las mascotas y el promedio de peso por tipo de mascota
+ *
+ * \param aArray recibe la direccion de memoria de la estructura Mascotas
+ * \param cantidadMascotas
+ * \param bArray recibe la direccion de memoria de la estructura Razas
+ * \param cantidadRazas
+ * \param dArray recibe la direccion de memoria de la estructura Paies
+ * \param cantidadPases
+ * \return 0 si fue exitoso, -1 si hubo algun error
+ *
+ */
+int listarPorPesoTipo(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos, struct sPaises *dArray, int cantidadPaises)
+{
+    int retorno;
+    float contadorMascotasTipoCero;
+    float contadorMascotasTipoUno;
+    float contadorMascotasTipoDos;
+    float sumaPesoMascotasTipoCero;
+    float sumaPesoMascotasTipoUno;
+    float sumaPesoMascotasTipoDos;
+    float promedioPesoMascotasTipoCero;
+    float promedioPesoMascotasTipoUno;
+    float promedioPesoMascotasTipoDos;
+    int idTipo;
+    char nombreTipoCero[QTY_CARACTERES];
+    char nombreTipoUno[QTY_CARACTERES];
+    char nombreTipoDos[QTY_CARACTERES];
+
+    retorno = -1;
+
+    if(aArray != NULL && bArray != NULL && cArray != NULL && dArray != NULL && cantidadMascotas > 0 && cantidadRazas > 0 && cantidadTipos > 0 && cantidadRazas > 0)
+    {
+        sumarPesosMascotas(aArray, cantidadMascotas, 0,&sumaPesoMascotasTipoCero);
+        contadorMascotasPorTipo(aArray,cantidadMascotas,0,&contadorMascotasTipoCero);
+        getDescripcionTipo(cArray,0,nombreTipoCero);
+
+        sumarPesosMascotas(aArray, cantidadMascotas, 1,&sumaPesoMascotasTipoUno);
+        contadorMascotasPorTipo(aArray,cantidadMascotas,1,&contadorMascotasTipoUno);
+        getDescripcionTipo(cArray,1,nombreTipoUno);
+
+        sumarPesosMascotas(aArray, cantidadMascotas, 2,&sumaPesoMascotasTipoDos);
+        contadorMascotasPorTipo(aArray,cantidadMascotas,2,&contadorMascotasTipoDos);
+        getDescripcionTipo(cArray,2,nombreTipoDos);
+    }
+    if(sumaPesoMascotasTipoCero > 0 )
+    {
+        promedioPesoMascotasTipoCero= sumaPesoMascotasTipoCero/contadorMascotasTipoCero;
+    }
+    if(sumaPesoMascotasTipoUno > 0 )
+    {
+        promedioPesoMascotasTipoUno= sumaPesoMascotasTipoUno/contadorMascotasTipoUno;
+    }
+    if(sumaPesoMascotasTipoDos > 0 )
+    {
+        promedioPesoMascotasTipoDos= sumaPesoMascotasTipoDos/contadorMascotasTipoDos;
+    }
+    retorno = 0;
+
+    printf("***************************************************************************************\n");
+    printf("***** CANT MASCOTAS POR TIPO - PESO ACUMULADO POR TIPO - PROMEDIO DE PESO POR TIPO *****\n");
+    printf("***************************************************************************************\n");
+    printf("Mascotas Tipo: %-10s - Cantidad: %-.2f - Peso Acumulado: %-.2f - Peso Promedio: %-.2f\n",nombreTipoCero,contadorMascotasTipoCero,sumaPesoMascotasTipoCero,promedioPesoMascotasTipoCero);
+    printf("Mascotas Tipo: %-10s - Cantidad: %-.2f - Peso Acumulado: %-.2f - Peso Promedio: %-.2f\n",nombreTipoUno,contadorMascotasTipoUno,sumaPesoMascotasTipoUno,promedioPesoMascotasTipoUno);
+    printf("Mascotas Tipo: %-10s - Cantidad: %-.2f - Peso Acumulado: %-.2f - Peso Promedio: %-.2f\n",nombreTipoDos,contadorMascotasTipoDos,sumaPesoMascotasTipoDos,promedioPesoMascotasTipoDos);
+
+    return retorno;
+}
+
+int sumarPesosMascotas(struct sMascotas *aArray, int cantidadMascotas, int idTipo, float *sumaPesoMascotas)
+{
+    int retorno;
+    float pesoMascotas;
+    retorno = -1;
+    *sumaPesoMascotas = 0;
+    if(aArray != NULL && idTipo > -1)
+    {
+        pesoMascotas = 0;
+        for(int i=0; i<cantidadMascotas; i++)
+        {
+            if(aArray[i].isEmpty == 0 && aArray[i].idTipo == idTipo)
+            {
+                pesoMascotas = pesoMascotas + aArray[i].peso;
+            }
+        }
+    *sumaPesoMascotas = pesoMascotas;
+    retorno = 0;
+    }
+    return retorno;
+}
+
+int contadorMascotasPorTipo(struct sMascotas *aArray, int cantidadMascotas, int idTipo, float *sumaPesoMascotas)
+{
+    int retorno;
+    float pesoMascotas;
+    *sumaPesoMascotas = 0;
+    if(aArray != NULL && idTipo > -1)
+    {
+        pesoMascotas = 0;
+        for(int i=0; i<cantidadMascotas; i++)
+        {
+            if(aArray[i].isEmpty == 0 && aArray[i].idTipo == idTipo)
+            {
+                pesoMascotas++;
+            }
+        }
+    *sumaPesoMascotas = pesoMascotas;
+    retorno = 0;
+    }
+    return retorno;
+}
 

@@ -414,3 +414,39 @@ int getRazaStr(	struct sRazas *aRaza,
 	}
 	return retorno;
 }
+
+/** \brief Da de beja un elemento en el array de estructura
+ *
+ * \param aArray recibe la direccion de memoria donde se encuentra el array de estructura
+ * \param cantidad recibe el tamaño del array a recorrer
+ * \return Devuelve 0 si se pudo procesar la baja o -1 si hubo algun error.
+ *
+ */
+int bajaRazasPorId(struct sMascotas *aArray, int cantidadMascotas, struct sRazas *bArray, int cantidadRazas, struct sTipos *cArray, int cantidadTipos,struct sPaises *dArray, int cantidadPaises)
+{
+	int retorno;
+	int idEditable;
+	char seguir;
+
+	if(aArray != NULL && cantidadMascotas>0 && bArray != NULL && cantidadRazas > 0 && cArray != NULL)
+	{
+	    system("cls");
+        imprimirArrayRaza(bArray,dArray);
+        retorno = -1;
+        seguir = 'N';
+		if(getInt(&idEditable,"\nSeleccione el id a dar de baja: \n","Ha seleccionado un id no valido. Reintente\n",0,cantidadRazas-1,3)==0)
+        {
+            system("cls");
+            printf("Va a eliminar la siguiente Raza: \n\n");
+            imprimirRaza(bArray,idEditable,dArray);
+            getCharBinario(&seguir, "Desea proceder, se eliminaran todas las mascotas de la misma Raza(S/N): \n", "La respuesta es invalida, reintente.\n",'N','S',3);
+            if(seguir == 'S')
+            {
+                bajaMascotasPorIdAutomatica(aArray,cantidadMascotas,bArray,cantidadRazas, cArray,cantidadTipos,dArray,cantidadPaises,idEditable);
+                bArray[idEditable].isEmpty=1;
+                retorno = 0;
+            }
+        }
+    }
+	return retorno;
+}
